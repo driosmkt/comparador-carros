@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparador de Carros</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <!-- Nosso menu principal aqui -->
+    </header>
+
+    <main>
+        <h1>Comparativo</h1>
+        <p>Compare os seus veículos de interesse</p>
+
+        <div class="comparison-container">
+            <!-- Bloco 1 -->
+            <div class="car-slot" id="slot-1">
+                <!-- Estado inicial: Botão para adicionar -->
+                <button class="add-car-btn" onclick="openCarSelectionModal(1)">
+                    <span class="plus-icon">+</span>
+                    Adicionar modelo
+                </button>
+            </div>
+
+            <!-- Bloco 2 -->
+            <div class="car-slot" id="slot-2">
+                 <button class="add-car-btn" onclick="openCarSelectionModal(2)">
+                    <span class="plus-icon">+</span>
+                    Adicionar modelo
+                </button>
+            </div>
+
+            <!-- Bloco 3 -->
+            <div class="car-slot" id="slot-3">
+                 <button class="add-car-btn" onclick="openCarSelectionModal(3)">
+                    <span class="plus-icon">+</span>
+                    Adicionar modelo
+                </button>
+            </div>
+        </div>
+
+        <!-- A área dos resultados da comparação aparecerá aqui -->
+        <div id="results-table" class="results-hidden">
+            <!-- Tabela de Highlights -->
+            <h2>Highlights</h2>
+            <div class="highlights">
+                 <!-- Linhas de comparação (Ex: Airbags) serão inseridas aqui via JavaScript -->
+            </div>
+
+            <!-- Tabela de Ficha Técnica Detalhada (colapsável) -->
+            <h2>Ficha Técnica</h2>
+            <div class="details">
+                 <!-- Seções (Motor, Dimensões, etc) serão inseridas aqui -->
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <!-- Nosso rodapé aqui -->
+    </footer>
+
+    <!-- Modal para seleção de veículos (inicialmente escondido) -->
+    <div id="car-selection-modal" class="modal-hidden">
+        <!-- A lista de carros será carregada aqui -->
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
