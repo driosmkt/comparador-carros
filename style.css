@@ -1,20 +1,92 @@
-// Pacote: com.seusite.comparador.controller
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+/* ---- Estilos Globais e Fontes ---- */
+body {
+    font-family: Arial, sans-serif; /* Uma fonte limpa e moderna */
+    background-color: #f4f5f7; /* Um cinza bem claro para o fundo */
+    color: #333; /* Cor do texto principal */
+    margin: 0;
+    padding: 20px;
+}
 
-@RestController // Anotação que diz que esta classe responderá a requisições web
-public class CarroController {
+.container {
+    max-width: 1200px; /* Largura máxima do conteúdo */
+    margin: 0 auto; /* Centraliza o container na página */
+    text-align: center; /* Centraliza o texto dos títulos */
+}
 
-    // Injeção do nosso serviço que busca os dados dos carros
-    private final CarroService carroService;
+/* ---- Estilizando os Títulos ---- */
+h1 {
+    font-size: 2.5em; /* Tamanho grande para o título principal */
+    margin-bottom: 0;
+}
 
-    // ... Construtor ...
+p {
+    font-size: 1.1em;
+    color: #666;
+    margin-top: 5px;
+}
 
-    @GetMapping("/api/comparar") // Responde a requisições em /api/comparar
-    public ComparisonResult compararCarros(@RequestParam List<String> ids) {
-        // Usa o serviço para buscar e comparar os carros pelos IDs
-        ComparisonResult resultado = carroService.comparar(ids);
-        return resultado; // Retorna o resultado, que o Spring converte para JSON
+/* ---- O Layout do Comparador (AQUI ACONTECE A MÁGICA) ---- */
+.comparison-container {
+    display: flex; /* ESSA É A PROPRIEDADE MAIS IMPORTANTE! Coloca os itens lado a lado. */
+    justify-content: center; /* Centraliza os blocos na linha */
+    gap: 20px; /* Cria um espaço de 20px entre cada bloco */
+    margin-top: 40px;
+    margin-bottom: 60px;
+}
+
+/* ---- Estilo dos Blocos de Adicionar Carro (Inspirado na FIAT) ---- */
+.car-slot {
+    width: 250px; /* Largura do bloco */
+    height: 200px; /* Altura do bloco */
+    border: 2px dashed #ccc; /* A borda tracejada que vimos no exemplo */
+    border-radius: 8px; /* Bordas arredondadas */
+    display: flex; /* Para centralizar o botão dentro do bloco */
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    transition: all 0.3s ease; /* Efeito suave para futuras interações */
+}
+
+.car-slot:hover {
+    border-color: #888; /* Muda a cor da borda ao passar o mouse */
+}
+
+/* ---- Estilo do Botão "+ Adicionar Modelo" ---- */
+.add-car-btn {
+    background: none; /* Sem cor de fundo */
+    border: none; /* Sem borda no botão */
+    cursor: pointer; /* Mostra a "mãozinha" ao passar o mouse */
+    font-size: 1em;
+    color: #555;
+    display: flex;
+    flex-direction: column; /* Ícone em cima, texto embaixo */
+    align-items: center;
+    gap: 10px; /* Espaço entre o ícone e o texto */
+}
+
+.plus-icon {
+    font-size: 2.5em; /* Deixa o "+" bem grande */
+    color: #d32f2f; /* Um tom de vermelho, como no exemplo */
+    font-weight: bold;
+}
+
+/* ---- Estilo das Seções de Resultados ---- */
+.results-section {
+    text-align: left; /* Alinha o texto das seções à esquerda */
+    margin-top: 40px;
+    border-top: 1px solid #eee; /* Uma linha para separar */
+    padding-top: 20px;
+}
+
+
+/* ---- DESIGN RESPONSIVO (Para Celular) ---- */
+@media (max-width: 768px) {
+    .comparison-container {
+        flex-direction: column; /* Coloca os blocos um embaixo do outro */
+        align-items: center; /* Centraliza os blocos na vertical */
+    }
+
+    .car-slot {
+        width: 90%; /* Ocupa quase toda a largura da tela */
     }
 }
