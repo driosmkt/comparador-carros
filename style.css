@@ -1,0 +1,20 @@
+// Pacote: com.seusite.comparador.controller
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController // Anotação que diz que esta classe responderá a requisições web
+public class CarroController {
+
+    // Injeção do nosso serviço que busca os dados dos carros
+    private final CarroService carroService;
+
+    // ... Construtor ...
+
+    @GetMapping("/api/comparar") // Responde a requisições em /api/comparar
+    public ComparisonResult compararCarros(@RequestParam List<String> ids) {
+        // Usa o serviço para buscar e comparar os carros pelos IDs
+        ComparisonResult resultado = carroService.comparar(ids);
+        return resultado; // Retorna o resultado, que o Spring converte para JSON
+    }
+}
