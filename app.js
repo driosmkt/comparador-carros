@@ -174,6 +174,14 @@ function finalSelection(carObject) {
             <p class="car-version">${carObject.version}</p>
             <p class="car-price">${carObject.price}</p>
             <button class="details-btn">Ver detalhes</button>
+            function finalSelection(carObject) {
+    // ... (o código que monta o innerHTML do card) ...
+    activeSlot.innerHTML = `...`; 
+
+    activeSlot.classList.add('filled'); // <<< ADICIONE ESTA LINHA
+
+    closeModal();
+}
         </div>
     `;
     closeModal();
@@ -185,6 +193,13 @@ function removeCar(slotElement) {
             <span class="plus-icon">+</span>
             Adicionar modelo
         </button>
+        function removeCar(slotElement) {
+    slotElement.classList.remove('filled'); // <<< ADICIONE ESTA LINHA
+
+    // ... (o resto do código que restaura o botão "+ Adicionar") ...
+    slotElement.innerHTML = `...`;
+    // ...
+}
     `;
     slotElement.querySelector('.add-car-btn').addEventListener('click', () => {
         openModal(slotElement);
