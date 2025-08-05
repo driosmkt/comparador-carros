@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p class="car-version">${carObject.version}</p>
                 <p class="car-price">${carObject.price}</p>
                 <button class="details-btn">Ver detalhes</button>
-                <button class="remove-car-btn">×</button>
+                <button class="remove-car-btn">&times;</button>
             </div>`;
         activeSlot.classList.add('filled');
         closeModal();
