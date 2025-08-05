@@ -120,3 +120,36 @@ p {
 .hidden {
     display: none;
 }
+/* ---- Estilos para o Modal de Múltiplos Passos ---- */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+#modal-back-btn {
+    background: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.modal-step {
+    padding: 10px 0;
+}
+
+/* Deixa os itens da lista com aparência de "clicáveis" */
+.selection-item {
+    padding: 12px 8px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    font-size: 1.1em;
+}
+
+.selection-item:hover {
+    background-color: #f7f7f7;
+}
