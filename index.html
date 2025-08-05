@@ -33,18 +33,26 @@
             </div>
         </div>
 
-        <!-- Espaço reservado para futuros anúncios do Google -->
-        <div class="ad-placeholder">
-            <!-- O código do anúncio virá aqui -->
-        </div>
-
+        <div class="ad-placeholder"></div>
     </main>
     
-    <!-- O código do Modal continua o mesmo, não precisa mexer -->
     <div id="selection-modal" class="modal-overlay hidden">
-        <!-- ... (conteúdo do modal como antes) ... -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Selecione</h2>
+                <button id="modal-back-btn" class="hidden" onclick="goBack()">← Voltar</button>
+            </div>
+            <div id="modal-steps-container">
+                <div id="step-brand" class="modal-step"></div>
+                <div id="step-model" class="modal-step hidden"></div>
+                <div id="step-year" class="modal-step hidden"></div>
+                <div id="step-version" class="modal-step hidden"></div>
+            </div>
+            <button class="close-modal-btn" onclick="closeModal()">Cancelar</button>
+        </div>
     </div>
 
     <script src="app.js"></script>
+
 </body>
 </html>
