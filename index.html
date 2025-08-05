@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comparador de Carros</title>
-    <!-- A linha mais importante: linkando nosso arquivo de estilo -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,84 +12,39 @@
         <h1>Comparativo</h1>
         <p>Compare os seus veículos de interesse</p>
 
-        <!-- Este é o contêiner principal para os carros -->
         <div class="comparison-container">
-
-            <!-- Cada carro a ser comparado fica em um "slot" -->
             <div class="car-slot">
                 <button class="add-car-btn">
                     <span class="plus-icon">+</span>
                     Adicionar modelo
                 </button>
             </div>
-
             <div class="car-slot">
                 <button class="add-car-btn">
                     <span class="plus-icon">+</span>
                     Adicionar modelo
                 </button>
             </div>
-
             <div class="car-slot">
                 <button class="add-car-btn">
                     <span class="plus-icon">+</span>
                     Adicionar modelo
                 </button>
             </div>
-
         </div>
 
-        <!-- Os resultados (ainda vazios) -->
-        <div class="results-section">
-            <h2>Highlights</h2>
-            <!-- Conteúdo dos destaques virá aqui -->
-
-            <h2>Ficha Técnica</h2>
-            <!-- Conteúdo da ficha técnica virá aqui -->
+        <!-- Espaço reservado para futuros anúncios do Google -->
+        <div class="ad-placeholder">
+            <!-- O código do anúncio virá aqui -->
         </div>
 
     </main>
-  <!-- ======================================================= -->
-<!-- ==     INÍCIO DO NOVO MODAL DE MÚLTIPLOS PASSOS      == -->
-<!-- ======================================================= -->
-<div id="selection-modal" class="modal-overlay hidden">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2 id="modal-title">Passo 1: Selecione a Marca</h2>
-            <button id="modal-back-btn" class="hidden" onclick="goBack()">← Voltar</button>
-        </div>
-
-        <!-- Container para os passos de seleção -->
-        <div id="modal-steps-container">
-            <!-- Passo 1: Marcas -->
-            <div id="step-brand" class="modal-step">
-                <!-- A lista de marcas será inserida aqui -->
-            </div>
-            <!-- Passo 2: Modelos (inicialmente escondido) -->
-            <div id="step-model" class="modal-step hidden">
-                <!-- A lista de modelos será inserida aqui -->
-            </div>
-            <!-- Passo 3: Anos (inicialmente escondido) -->
-            <div id="step-year" class="modal-step hidden">
-                <!-- A lista de anos será inserida aqui -->
-            </div>
-             <!-- Passo 4: Versões (inicialmente escondido) -->
-            <div id="step-version" class="modal-step hidden">
-                <!-- A lista de versões será inserida aqui -->
-            </div>
-        </div>
-
-        <button class="close-modal-btn" onclick="closeModal()">Cancelar</button>
+    
+    <!-- O código do Modal continua o mesmo, não precisa mexer -->
+    <div id="selection-modal" class="modal-overlay hidden">
+        <!-- ... (conteúdo do modal como antes) ... -->
     </div>
-</div>
-<!-- ======================================================= -->
-<!-- ==          FIM DO NOVO MODAL DE SELEÇÃO           == -->
-<!-- ======================================================= -->
 
-    <!-- Vamos criar e linkar nosso arquivo JavaScript -->
     <script src="app.js"></script>
-
-</body>
-</html>
 </body>
 </html>
