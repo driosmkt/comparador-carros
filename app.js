@@ -14,6 +14,7 @@ const DUMMY_DATA = {
 // ===============================================
 // == REFERÊNCIAS AOS ELEMENTOS HTML
 // ===============================================
+const comparisonContainer = document.querySelector('.comparison-container');
 const modal = document.getElementById('selection-modal');
 const modalTitle = document.getElementById('modal-title');
 const backButton = document.getElementById('modal-back-btn');
@@ -28,10 +29,24 @@ let activeSlot = null;
 let currentStep = '';
 let selections = {};
 
+// ========================================================
+// == CORREÇÃO: USANDO DELEGAÇÃO DE EVENTOS PARA OS CLIQUES
+// ========================================================
+comparisonContainer.addEventListener('click', function(event) {
+    // Procura por um elemento clicado que seja um botão de adicionar ou um ancestral dele.
+    const addBtn = event.target.closest('.add-car-btn');
+    if (addBtn) {
+        // Se encontrou, pega o '.car-slot' pai e abre o modal.
+        const slot = addBtn.closest('.car-slot');
+        if (slot) {
+            openModal(slot);
+        }
+    }
+});
+
 // ==================================
 // == FUNÇÕES DE CONTROLE DO MODAL
 // ==================================
-
 function showStep(stepName) {
     currentStep = stepName;
     for (let step in steps) { steps[step].classList.add('hidden'); }
@@ -61,7 +76,6 @@ function goBack() {
 // ==================================
 // == FUNÇÕES DE SELEÇÃO E LÓGICA
 // ==================================
-
 function populateBrands() {
     steps.brand.innerHTML = '';
     Object.keys(DUMMY_DATA).forEach(brand => {
@@ -139,40 +153,18 @@ function finalSelection(carObject) {
             <button class="details-btn">Ver detalhes</button>
         </div>
     `;
-    // Adiciona a classe para a animação de "preenchido"
     activeSlot.classList.add('filled');
     closeModal();
 }
 
+// A função de remover agora é muito mais simples
 function removeCar(slotElement) {
-    // 1. Remove a classe de animação
     slotElement.classList.remove('filled');
-    // 2. Restaura o botão original
     slotElement.innerHTML = `
         <button class="add-car-btn">
             <span class="plus-icon">+</span>
             Adicionar modelo
         </button>
     `;
-    // 3. **A CORREÇÃO CRÍTICA ESTÁ AQUI**
-    // Adiciona o evento de clique NOVAMENTE ao botão que acabamos de recriar.
-    // Sem isso, o novo botão "+ Adicionar modelo" não funcionaria.
-    slotElement.querySelector('.add-car-btn').addEventListener('click', () => {
-        openModal(slotElement);
-    });
+    // Não precisamos mais readicionar o evento de clique aqui. O vigia principal já cuida disso!
 }
-
-// =========================================================
-// == ADICIONA OS EVENTOS DE CLIQUE AOS BOTÕES INICIAIS
-// =========================================================
-function addClickEventsToInitialButtons() {
-    document.querySelectorAll('.add-car-btn').forEach(button => {
-        button.addEventListener('click', () => {
-            // "this.parentElement" se refere ao .car-slot que contém o botão clicado
-            openModal(button.parentElement);
-        });
-    });
-}
-
-// Inicia a aplicação adicionando os eventos
-addClickEventsToInitialButtons();
