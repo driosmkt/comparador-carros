@@ -50,24 +50,42 @@
         </div>
 
     </main>
-    <!-- ... seu código main e footer ... -->
-
-    <!-- ======================================================= -->
-    <!-- ==         INÍCIO DO CÓDIGO DO MODAL DE SELEÇÃO       == -->
-    <!-- ======================================================= -->
-    <div id="selection-modal" class="modal-overlay hidden">
-        <div class="modal-content">
-            <h2>Selecione um Veículo</h2>
-            <div id="car-list">
-                <!-- A lista de carros será inserida aqui pelo JavaScript -->
-                <p>Carregando veículos...</p>
-            </div>
-            <button class="close-modal-btn" onclick="closeModal()">Fechar</button>
+  <!-- ======================================================= -->
+<!-- ==     INÍCIO DO NOVO MODAL DE MÚLTIPLOS PASSOS      == -->
+<!-- ======================================================= -->
+<div id="selection-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modal-title">Passo 1: Selecione a Marca</h2>
+            <button id="modal-back-btn" class="hidden" onclick="goBack()">← Voltar</button>
         </div>
+
+        <!-- Container para os passos de seleção -->
+        <div id="modal-steps-container">
+            <!-- Passo 1: Marcas -->
+            <div id="step-brand" class="modal-step">
+                <!-- A lista de marcas será inserida aqui -->
+            </div>
+            <!-- Passo 2: Modelos (inicialmente escondido) -->
+            <div id="step-model" class="modal-step hidden">
+                <!-- A lista de modelos será inserida aqui -->
+            </div>
+            <!-- Passo 3: Anos (inicialmente escondido) -->
+            <div id="step-year" class="modal-step hidden">
+                <!-- A lista de anos será inserida aqui -->
+            </div>
+             <!-- Passo 4: Versões (inicialmente escondido) -->
+            <div id="step-version" class="modal-step hidden">
+                <!-- A lista de versões será inserida aqui -->
+            </div>
+        </div>
+
+        <button class="close-modal-btn" onclick="closeModal()">Cancelar</button>
     </div>
-    <!-- ======================================================= -->
-    <!-- ==         FIM DO CÓDIGO DO MODAL DE SELEÇÃO         == -->
-    <!-- ======================================================= -->
+</div>
+<!-- ======================================================= -->
+<!-- ==          FIM DO NOVO MODAL DE SELEÇÃO           == -->
+<!-- ======================================================= -->
 
     <!-- Vamos criar e linkar nosso arquivo JavaScript -->
     <script src="app.js"></script>
