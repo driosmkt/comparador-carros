@@ -1,99 +1,201 @@
-// --- Simulação dos dados que viriam do Back-End (Java) ---
-// No futuro, faremos uma chamada 'fetch' para buscar isso.
-const DUMMY_CARS = [
-    { id: 101, name: 'Fiat Pulse', price: 'R$ 102.990', image: 'url_da_imagem_do_pulse.jpg' },
-    { id: 102, name: 'Fiat Cronos', price: 'R$ 92.990', image: 'url_da_imagem_do_cronos.jpg' },
-    { id: 103, name: 'Fiat Fastback', price: 'R$ 117.990', image: 'url_da_imagem_do_fastback.jpg' },
-    { id: 201, name: 'Chevrolet Onix', price: 'R$ 84.390', image: 'url_da_imagem_do_onix.jpg' },
-    { id: 202, name: 'Chevrolet Tracker', price: 'R$ 134.850', image: 'url_da_imagem_do_tracker.jpg' }
-];
+// ===================================================================
+// == PASSO 1: SIMULAÇÃO DE DADOS HIERÁRQUICOS (COMO VIRIA DA API) ==
+// ===================================================================
+const DUMMY_DATA = {
+    "Fiat": {
+        "Pulse": {
+            "2024": [
+                { id: 101, version: "Drive 1.3 AT", price: "R$ 102.990", image: "img/pulse.jpg" }
+            ]
+        },
+        "Cronos": {
+            "2024": [
+                { id: 102, version: "Drive 1.0", price: "R$ 92.990", image: "img/cronos.jpg" },
+                { id: 103, version: "Precision 1.3 AT", price: "R$ 110.890", image: "img/cronos.jpg" }
+            ]
+        }
+    },
+    "Chevrolet": {
+        "Onix": {
+            "2024": [
+                { id: 201, version: "1.0 Aspirado", price: "R$ 84.390", image: "img/onix.jpg" },
+                { id: 202, version: "LT 1.0 Turbo", price: "R$ 98.450", image: "img/onix.jpg" }
+            ]
+        },
+        "Tracker": {
+            "2024": [
+                { id: 203, version: "1.0 Turbo AT", price: "R$ 134.850", image: "img/tracker.jpg" },
+                { id: 204, version: "Premier 1.2 Turbo", price: "R$ 164.850", image: "img/tracker.jpg" }
+            ]
+        }
+    }
+};
 
-
-// --- Referências aos elementos do HTML ---
+// ===============================================
+// == PASSO 2: VARIÁVEIS DE ESTADO E REFERÊNCIAS ==
+// ===============================================
 const modal = document.getElementById('selection-modal');
-const carListContainer = document.getElementById('car-list');
-const addCarButtons = document.querySelectorAll('.add-car-btn');
+const modalTitle = document.getElementById('modal-title');
+const backButton = document.getElementById('modal-back-btn');
+const steps = {
+    brand: document.getElementById('step-brand'),
+    model: document.getElementById('step-model'),
+    year: document.getElementById('step-year'),
+    version: document.getElementById('step-version')
+};
 
-// --- Variável para saber qual "slot" estamos preenchendo ---
-let activeSlot = null;
+let activeSlot = null; // Qual slot (1, 2 ou 3) está sendo preenchido
+let currentStep = ''; // 'brand', 'model', 'year', 'version'
+let selections = {}; // Onde guardamos as escolhas: { brand: 'Fiat', model: 'Cronos', ... }
 
+// ==================================
+// == PASSO 3: FUNÇÕES DE CONTROLE ==
+// ==================================
 
-// --- Funções ---
+// ---- Funções de Visibilidade ----
+function showStep(stepName) {
+    currentStep = stepName;
+    // Esconde todos os passos
+    for (let step in steps) {
+        steps[step].classList.add('hidden');
+    }
+    // Mostra o passo atual
+    steps[stepName].classList.remove('hidden');
 
-/**
- * Abre o modal de seleção de carros.
- * É chamada quando um dos botões "+ Adicionar" é clicado.
- */
+    // Controla o botão "Voltar"
+    backButton.classList.toggle('hidden', stepName === 'brand');
+}
+
 function openModal(slotElement) {
-    activeSlot = slotElement; // Guarda qual slot acionou o modal
-    carListContainer.innerHTML = ''; // Limpa a lista antiga
-
-    // Cria um item na lista para cada carro da nossa simulação
-    DUMMY_CARS.forEach(car => {
-        const carItem = document.createElement('div');
-        carItem.className = 'car-list-item'; // Para estilizar no futuro
-        carItem.innerHTML = `<strong>${car.name}</strong> - ${car.price}`;
-        
-        // Adiciona o evento de clique para selecionar o carro
-        carItem.onclick = () => selectCar(car);
-
-        carListContainer.appendChild(carItem);
-    });
-
-    modal.classList.remove('hidden'); // Mostra o modal!
+    activeSlot = slotElement;
+    selections = {}; // Limpa seleções anteriores
+    modalTitle.innerText = "Passo 1: Selecione a Marca";
+    populateBrands();
+    showStep('brand');
+    modal.classList.remove('hidden');
 }
 
-/**
- * Fecha o modal.
- * É chamada pelo botão "Fechar" dentro do modal.
- */
 function closeModal() {
-    modal.classList.add('hidden'); // Esconde o modal
+    modal.classList.add('hidden');
 }
 
-/**
- * Ação de selecionar um carro da lista no modal.
- */
-function selectCar(car) {
-    // Substitui o botão "+ Adicionar" pelo card do carro selecionado
+function goBack() {
+    if (currentStep === 'model') {
+        modalTitle.innerText = "Passo 1: Selecione a Marca";
+        showStep('brand');
+    } else if (currentStep === 'year') {
+        modalTitle.innerText = "Passo 2: Selecione o Modelo";
+        showStep('model');
+    } else if (currentStep === 'version') {
+        modalTitle.innerText = "Passo 3: Selecione o Ano";
+        showStep('year');
+    }
+}
+
+// ---- Funções de Preenchimento e Seleção ----
+
+function populateBrands() {
+    steps.brand.innerHTML = '';
+    const brands = Object.keys(DUMMY_DATA);
+    brands.forEach(brand => {
+        const item = document.createElement('div');
+        item.className = 'selection-item';
+        item.innerText = brand;
+        item.onclick = () => selectBrand(brand);
+        steps.brand.appendChild(item);
+    });
+}
+
+function selectBrand(brandName) {
+    selections.brand = brandName;
+    modalTitle.innerText = "Passo 2: Selecione o Modelo";
+    populateModels(brandName);
+    showStep('model');
+}
+
+function populateModels(brandName) {
+    steps.model.innerHTML = '';
+    const models = Object.keys(DUMMY_DATA[brandName]);
+    models.forEach(model => {
+        const item = document.createElement('div');
+        item.className = 'selection-item';
+        item.innerText = model;
+        item.onclick = () => selectModel(model);
+        steps.model.appendChild(item);
+    });
+}
+
+function selectModel(modelName) {
+    selections.model = modelName;
+    modalTitle.innerText = "Passo 3: Selecione o Ano";
+    populateYears(selections.brand, modelName);
+    showStep('year');
+}
+
+function populateYears(brand, model) {
+    steps.year.innerHTML = '';
+    const years = Object.keys(DUMMY_DATA[brand][model]);
+    years.forEach(year => {
+        const item = document.createElement('div');
+        item.className = 'selection-item';
+        item.innerText = year;
+        item.onclick = () => selectYear(year);
+        steps.year.appendChild(item);
+    });
+}
+
+function selectYear(year) {
+    selections.year = year;
+    modalTitle.innerText = "Passo 4: Selecione a Versão";
+    populateVersions(selections.brand, selections.model, year);
+    showStep('version');
+}
+
+function populateVersions(brand, model, year) {
+    steps.version.innerHTML = '';
+    const versions = DUMMY_DATA[brand][model][year];
+    versions.forEach(car => {
+        const item = document.createElement('div');
+        item.className = 'selection-item';
+        item.innerHTML = `${car.version} - <strong>${car.price}</strong>`;
+        // Passamos o objeto completo do carro para a função final
+        item.onclick = () => finalSelection(car);
+        steps.version.appendChild(item);
+    });
+}
+
+function finalSelection(carObject) {
+    // Reutilizamos a lógica de preencher o card da versão anterior
     activeSlot.innerHTML = `
         <div class="car-card">
-            <button class="remove-car-btn" onclick="removeCar(this.parentElement.parentElement)">×</button>
-            <img src="${car.image}" alt="${car.name}" style="width:100%; height: 120px; background-color: #eee; border-radius: 4px;">
-            <h3>${car.name}</h3>
-            <p class="car-price">${car.price}</p>
+            <button class="remove-car-btn" onclick="removeCar(this.closest('.car-slot'))">×</button>
+            <img src="${carObject.image}" alt="${selections.model}" style="width:100%; height: 120px; object-fit: cover; background-color: #eee; border-radius: 4px;">
+            <h3>${selections.brand} ${selections.model}</h3>
+            <p class="car-version">${carObject.version}</p>
+            <p class="car-price">${carObject.price}</p>
             <button class="details-btn">Ver detalhes</button>
         </div>
     `;
-    closeModal(); // Fecha o modal após a seleção
+    closeModal();
 }
 
-/**
- * Restaura o slot para o botão original "+ Adicionar modelo".
- */
 function removeCar(slotElement) {
-     slotElement.innerHTML = `
+    slotElement.innerHTML = `
         <button class="add-car-btn">
             <span class="plus-icon">+</span>
             Adicionar modelo
         </button>
     `;
-    // Precisamos adicionar o evento de clique novamente ao botão recriado
     slotElement.querySelector('.add-car-btn').addEventListener('click', () => {
         openModal(slotElement);
     });
 }
 
-
-// --- Adicionar os Eventos de Clique aos Botões Iniciais ---
-
-// Para cada botão "+ Adicionar modelo" na tela...
-addCarButtons.forEach(button => {
-    // ...adicione um "ouvinte" de evento de clique.
+// =========================================================
+// == PASSO 4: ADICIONAR OS EVENTOS DE CLIQUE AOS BOTÕES  ==
+// =========================================================
+document.querySelectorAll('.add-car-btn').forEach(button => {
     button.addEventListener('click', () => {
-        // Quando clicado, chame a função openModal,
-        // passando o "slot" (a div pai do botão) como argumento.
-        const slot = button.parentElement;
-        openModal(slot);
+        openModal(button.parentElement);
     });
 });
