@@ -1,0 +1,56 @@
+{
+  "id": 101,
+  "marca": "Fiat",
+  "modelo": "Pulse",
+  "ano": 2024,
+  "versao": "Drive 1.3 AT",
+  "informacoes_basicas": {
+    "preco_fipe": "R$ 102.990",
+    "categoria": "SUV",
+    "portas": 4,
+    "lugares": 5
+  },
+  "motor_desempenho": {
+    "motorizacao": "1.3",
+    "potencia_cv": 107,
+    "torque_kgfm": 13.7,
+    "combustivel": "Flex",
+    "consumo_cidade_km_l": "12.8 (gasolina)",
+    "consumo_estrada_km_l": "14.3 (gasolina)",
+    "velocidade_max_km_h": 177,
+    "aceleracao_0_100_s": 11.4
+  },
+  "dimensoes_capacidades": {
+    "comprimento_mm": 4099,
+    "largura_mm": 1774,
+    "altura_mm": 1579,
+    "entre_eixos_mm": 2532,
+    "porta_malas_l": 370,
+    "tanque_l": 47,
+    "peso_kg": 1187
+  },
+  "transmissao_direcao": {
+      "cambio": "Automático CVT 7 marchas",
+      "direcao": "Elétrica",
+      "tracao": "Dianteira"
+  },
+  "seguranca": {
+      "airbags": 4,
+      "abs": "Sim",
+      "controle_estabilidade": "Sim",
+      "assistente_partida": "Sim",
+      "isofix": "Sim",
+      "nota_latin_ncap": "2 estrelas"
+  },
+  "conforto_tecnologia": {
+      "ar_condicionado": "Sim",
+      "vidros_eletricos": "Dianteiros e Traseiros",
+      "travas_eletricas": "Sim",
+      "computador_bordo": "Sim",
+      "central_multimidia_pol": 8.4,
+      "bluetooth": "Sim",
+      "usb": "Sim",
+      "camera_re": "Não",
+      "sensor_estacionamento": "Traseiro"
+  }
+}
