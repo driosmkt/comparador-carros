@@ -3,146 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comparador de Carros (Design Final)</title>
+    <title>Comparador de Carros</title>
 
-    <!-- TODO O CSS ESTÁ AQUI DENTRO -->
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #121212; /* Um preto um pouco mais suave que o #000 */
-            color: #e0e0e0;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        h1 {
-            font-size: 2.5em;
-            font-weight: 600;
-            color: #fff;
-        }
-        p {
-            font-size: 1.1em;
-            color: #a0a0a0;
-        }
-        .comparison-container {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
+        /* CSS BÁSICO E DOS CARDS (sem alterações) */
+        body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background-color:#121212;color:#e0e0e0;margin:0;padding:20px}.container{max-width:1200px;margin:0 auto;text-align:center}h1{font-size:2.5em;font-weight:600;color:#fff}p{font-size:1.1em;color:#a0a0a0}.comparison-container{display:flex;justify-content:center;gap:30px;margin-top:40px;margin-bottom:60px}.car-slot{width:280px;height:280px;background-color:#1e1e1e;border:2px solid #333;border-radius:16px;display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box;transition:all .4s ease-in-out;position:relative}.car-slot.filled{border-color:#00aaff;box-shadow:0 0 20px rgba(0,170,255,.5)}.add-car-btn{background:none;border:none;cursor:pointer;font-size:1em;color:#a0a0a0;display:flex;flex-direction:column;align-items:center;gap:10px}.plus-icon{font-size:2.5em;color:#e74c3c;font-weight:700}.car-card{display:flex;flex-direction:column;justify-content:center;align-items:center;height:100%;width:100%;text-align:center}.car-card h3{margin:0 0 10px 0;font-size:1.8em;font-weight:700;color:#fff}.car-card .car-version,.car-card .car-price{margin:4px 0;font-size:1.1em;color:#a0a0a0}.car-card .car-price{margin-bottom:20px}.car-card .details-btn{padding:10px 25px;border:1px solid #555;background:none;color:#e0e0e0;border-radius:8px;cursor:pointer;transition:all .2s ease}.car-card .details-btn:hover{background-color:#00aaff;border-color:#00aaff;color:#fff}.remove-car-btn{position:absolute;top:15px;right:15px;background:#333;color:#e0e0e0;border:none;border-radius:50%;width:32px;height:32px;font-size:1.5em;line-height:32px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s ease}.remove-car-btn:hover{background-color:#e74c3c;color:#fff}
+        
+        /* CSS DO MODAL (sem alterações) */
+        .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,.7);display:flex;justify-content:center;align-items:center;z-index:1000}.modal-content{background-color:#2c2c2c;padding:30px;border-radius:8px;width:80%;max-width:500px}.hidden{display:none}.modal-header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #444;padding-bottom:15px;margin-bottom:15px}#modal-back-btn{background:none;border:1px solid #777;border-radius:4px;padding:5px 10px;cursor:pointer;color:#fff}.selection-item{padding:12px 8px;border-bottom:1px solid #444;cursor:pointer;font-size:1.1em;text-align:left}.selection-item:hover{background-color:#3e3e3e}.close-modal-btn{background-color:#e74c3c;color:#fff;border:none;padding:10px 15px;border-radius:5px;cursor:pointer;margin-top:20px;float:right}
+        
+        .ad-placeholder{width:728px;height:90px;background-color:transparent;border:2px dashed #333;margin:40px auto; display: flex; align-items: center; justify-content: center; color: #555;}
+        @media (max-width:768px){.comparison-container{flex-direction:column;align-items:center}.car-slot{width:90%}}
+
+        /* === NOVO CSS PARA A TABELA COMPARATIVA === */
+        #comparison-table-container {
             margin-top: 40px;
-            margin-bottom: 60px;
-        }
-        .car-slot {
-            width: 280px;
-            height: 280px; /* Altura fixa para alinhar melhor */
-            background-color: #1e1e1e; /* Cinza bem escuro para o card */
-            border: 2px solid #333; /* Borda sutil */
-            border-radius: 16px; /* Cantos mais arredondados */
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background-color: #1e1e1e;
+            border-radius: 16px;
             padding: 20px;
-            box-sizing: border-box;
-            transition: all .4s ease-in-out;
-            position: relative; /* Para posicionar o botão 'X' */
+            border: 2px solid #333;
         }
-        .car-slot.filled {
-            border-color: #00aaff;
-            box-shadow: 0 0 20px rgba(0, 170, 255, 0.5);
-        }
-        .add-car-btn {
-            background: none;
-            border: none;
+        .accordion-header {
+            background-color: #2c2c2c;
+            color: #fff;
             cursor: pointer;
-            font-size: 1em;
-            color: #a0a0a0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-        .plus-icon {
-            font-size: 2.5em;
-            color: #e74c3c;
-            font-weight: 700;
-        }
-        
-        /* == NOVO ESTILO PARA O CARD PREENCHIDO == */
-        .car-card {
-            display: flex;
-            flex-direction: column;
-            justify-content: center; /* Centraliza o conteúdo verticalmente */
-            align-items: center;    /* Centraliza o conteúdo horizontalmente */
-            height: 100%;
+            padding: 18px;
             width: 100%;
-            text-align: center;
-        }
-        .car-card h3 { /* Nome do Carro */
-            margin: 0 0 10px 0;
-            font-size: 1.8em; /* Maior e mais destacado */
-            font-weight: 700; /* Negrito forte */
-            color: #fff;
-        }
-        .car-card .car-version,
-        .car-card .car-price { /* Versão e Preço */
-            margin: 4px 0;
-            font-size: 1.1em;
-            color: #a0a0a0;
-        }
-        .car-card .car-price {
-            margin-bottom: 20px; /* Mais espaço antes do botão */
-        }
-        .car-card .details-btn {
-            padding: 10px 25px;
-            border: 1px solid #555;
-            background: none;
-            color: #e0e0e0;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all .2s ease;
-        }
-        .car-card .details-btn:hover {
-            background-color: #00aaff;
-            border-color: #00aaff;
-            color: #fff;
-        }
-        .remove-car-btn {
-            position: absolute;
-            top: 15px; /* Posição dentro do card */
-            right: 15px;
-            background: #333;
-            color: #e0e0e0;
+            text-align: left;
             border: none;
-            border-radius: 50%; /* Círculo perfeito */
-            width: 32px;
-            height: 32px;
-            font-size: 1.5em;
-            line-height: 32px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all .2s ease;
+            outline: none;
+            font-size: 1.2em;
+            transition: 0.4s;
+            border-radius: 8px;
+            margin-top: 10px;
         }
-        .remove-car-btn:hover {
-            background-color: #e74c3c;
+        .accordion-header:hover, .accordion-header.active {
+            background-color: #3e3e3e;
+        }
+        .accordion-header::after { /* Símbolo '+' e '-' */
+            content: '+';
+            font-size: 1.3em;
+            color: #fff;
+            float: right;
+        }
+        .accordion-header.active::after {
+            content: "-";
+        }
+        .panel {
+            padding: 0 18px;
+            background-color: #1e1e1e;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            display: grid;
+            /* Grid com 4 colunas: 1 para o nome do item, 3 para os carros */
+            grid-template-columns: 1.5fr 1fr 1fr 1fr; 
+        }
+        .panel-item, .panel-header {
+            padding: 12px 10px;
+            border-bottom: 1px solid #2c2c2c;
+        }
+        .panel-header {
+            font-weight: bold;
             color: #fff;
         }
-        
-        /* == Estilos do Modal (sem alteração) == */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, .7); display: flex; justify-content: center; align-items: center; z-index: 1000; }
-        .modal-content { background-color: #2c2c2c; padding: 30px; border-radius: 8px; width: 80%; max-width: 500px; }
-        .hidden { display: none; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #444; padding-bottom: 15px; margin-bottom: 15px; }
-        #modal-back-btn { background: none; border: 1px solid #777; border-radius: 4px; padding: 5px 10px; cursor: pointer; color: #fff; }
-        .selection-item { padding: 12px 8px; border-bottom: 1px solid #444; cursor: pointer; font-size: 1.1em; text-align: left; }
-        .selection-item:hover { background-color: #3e3e3e; }
-        .close-modal-btn { background-color: #e74c3c; color: #fff; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; margin-top: 20px; float: right; }
-        .ad-placeholder { width: 728px; height: 90px; background-color: transparent; border: 2px dashed #333; margin: 40px auto; }
-        @media (max-width: 768px) { .comparison-container { flex-direction: column; align-items: center; } .car-slot { width: 90%; } }
+        .panel-item-label {
+            color: #a0a0a0;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -152,25 +80,35 @@
         <p>Compare os seus veículos de interesse</p>
 
         <div class="comparison-container">
-            <div class="car-slot">
+            <!-- Os 3 slots para seleção de carros -->
+            <div class="car-slot" data-car-id="null">
                 <button class="add-car-btn"><span class="plus-icon">+</span>Adicionar modelo</button>
             </div>
-            <div class="car-slot">
+            <div class="car-slot" data-car-id="null">
                 <button class="add-car-btn"><span class="plus-icon">+</span>Adicionar modelo</button>
             </div>
-            <div class="car-slot">
+            <div class="car-slot" data-car-id="null">
                 <button class="add-car-btn"><span class="plus-icon">+</span>Adicionar modelo</button>
             </div>
         </div>
 
-        <div class="ad-placeholder"></div>
+        <div class="ad-placeholder"><span>Espaço para Publicidade #1</span></div>
+
+        <!-- O CONTAINER DA NOVA TABELA (INICIALMENTE ESCONDIDO) -->
+        <div id="comparison-table-container" class="hidden">
+            <h2>Comparativo Detalhado</h2>
+            <div id="comparison-table-content"></div>
+        </div>
+
+        <div class="ad-placeholder"><span>Espaço para Publicidade #2</span></div>
     </main>
     
+    <!-- MODAL DE SELEÇÃO (sem alterações) -->
     <div id="selection-modal" class="modal-overlay hidden">
         <div class="modal-content">
             <div class="modal-header">
                 <h2 id="modal-title">Selecione</h2>
-                <button id="modal-back-btn" class="hidden" onclick="goBack()">← Voltar</button>
+                <button id="modal-back-btn" class="hidden" onclick="goBack()">&larr; Voltar</button>
             </div>
             <div id="modal-steps-container">
                 <div id="step-brand" class="modal-step"></div>
@@ -182,33 +120,28 @@
         </div>
     </div>
 
-    <!-- TODO O JAVASCRIPT ESTÁ AQUI DENTRO -->
     <script>
-        const DUMMY_DATA = {
-            "Fiat": {
-                "Pulse": { "2024": [{ id: 101, version: "Drive 1.3 AT", price: "R$ 102.990" }] },
-                "Cronos": { "2024": [{ id: 102, version: "Precision 1.3 AT", price: "R$ 110.890" }] }
-            },
-            "Chevrolet": {
-                "Onix": { "2024": [{ id: 201, version: "LT 1.0 Turbo", price: "R$ 98.450" }] }
-            }
+        // === DADOS SIMULADOS (INCLUINDO DETALHES COMPLETOS) ===
+        const DETAILED_DUMMY_DATA = {
+            "101": { id: 101, marca: "Fiat", modelo: "Pulse", versao: "Drive 1.3 AT", informacoes_basicas: { preco_fipe: "R$ 102.990", categoria: "SUV", portas: 4, lugares: 5 }, motor_desempenho: { motorizacao: "1.3", potencia_cv: 107, torque_kgfm: 13.7, combustivel: "Flex" }, seguranca: { airbags: 4, abs: "Sim", controle_estabilidade: "Sim" } },
+            "102": { id: 102, marca: "Fiat", modelo: "Cronos", versao: "Precision 1.3 AT", informacoes_basicas: { preco_fipe: "R$ 110.890", categoria: "Sedan", portas: 4, lugares: 5 }, motor_desempenho: { motorizacao: "1.3", potencia_cv: 107, torque_kgfm: 13.7, combustivel: "Flex" }, seguranca: { airbags: 2, abs: "Sim", controle_estabilidade: "Sim" } },
+            "201": { id: 201, marca: "Chevrolet", modelo: "Onix", versao: "LT 1.0 Turbo", informacoes_basicas: { preco_fipe: "R$ 98.450", categoria: "Hatch", portas: 4, lugares: 5 }, motor_desempenho: { motorizacao: "1.0 Turbo", potencia_cv: 116, torque_kgfm: 16.8, combustivel: "Flex" }, seguranca: { airbags: 6, abs: "Sim", controle_estabilidade: "Sim" } }
         };
+        const DUMMY_DATA = { "Fiat": { "Pulse": { "2024": [{ id: 101, version: "Drive 1.3 AT", price: "R$ 102.990" }] }, "Cronos": { "2024": [{ id: 102, version: "Precision 1.3 AT", price: "R$ 110.890" }] } }, "Chevrolet": { "Onix": { "2024": [{ id: 201, version: "LT 1.0 Turbo", price: "R$ 98.450" }] } } };
 
+        // === REFERÊNCIAS AOS ELEMENTOS HTML ===
         const comparisonContainer = document.querySelector('.comparison-container');
+        const comparisonTableContainer = document.getElementById('comparison-table-container');
+        const comparisonTableContent = document.getElementById('comparison-table-content');
         const modal = document.getElementById('selection-modal');
         const modalTitle = document.getElementById('modal-title');
         const backButton = document.getElementById('modal-back-btn');
-        const steps = {
-            brand: document.getElementById('step-brand'),
-            model: document.getElementById('step-model'),
-            year: document.getElementById('step-year'),
-            version: document.getElementById('step-version')
-        };
-
+        const steps = { brand: document.getElementById('step-brand'), model: document.getElementById('step-model'), year: document.getElementById('step-year'), version: document.getElementById('step-version')};
         let activeSlot = null;
         let currentStep = '';
         let selections = {};
 
+        // === LÓGICA PRINCIPAL DE CLIQUES ===
         comparisonContainer.addEventListener('click', (event) => {
             const addBtn = event.target.closest('.add-car-btn');
             if (addBtn) {
@@ -217,121 +150,96 @@
             }
         });
 
-        function openModal(slotElement) {
-            activeSlot = slotElement;
-            selections = {};
-            modalTitle.innerText = "Passo 1: Selecione a Marca";
-            populateBrands();
-            showStep('brand');
-            modal.classList.remove('hidden');
-        };
+        // === LÓGICA DO MODAL (sem alterações) ===
+        function openModal(slotElement){activeSlot=slotElement;selections={};modalTitle.innerText="Passo 1: Selecione a Marca";populateBrands();showStep('brand');modal.classList.remove('hidden')};function closeModal(){modal.classList.add('hidden')};function goBack(){if(currentStep==='model'){showStep('brand');modalTitle.innerText="Passo 1: Selecione a Marca"}else if(currentStep==='year'){showStep('model');modalTitle.innerText="Passo 2: Selecione o Modelo"}else if(currentStep==='version'){showStep('year');modalTitle.innerText="Passo 3: Selecione o Ano"}};function showStep(stepName){currentStep=stepName;for(let step in steps){steps[step].classList.add('hidden')}steps[stepName].classList.remove('hidden');backButton.classList.toggle('hidden',stepName==='brand')}function populateBrands(){steps.brand.innerHTML='';Object.keys(DUMMY_DATA).forEach(brand=>{const item=document.createElement('div');item.className='selection-item';item.innerText=brand;item.onclick=()=>selectBrand(brand);steps.brand.appendChild(item)})}function selectBrand(brandName){selections.brand=brandName;modalTitle.innerText="Passo 2: Selecione o Modelo";populateModels(brandName);showStep('model')}function populateModels(brandName){steps.model.innerHTML='';Object.keys(DUMMY_DATA[brandName]).forEach(model=>{const item=document.createElement('div');item.className='selection-item';item.innerText=model;item.onclick=()=>selectModel(model);steps.model.appendChild(item)})}function selectModel(modelName){selections.model=modelName;modalTitle.innerText="Passo 3: Selecione o Ano";populateYears(selections.brand,modelName);showStep('year')}function populateYears(brand,model){steps.year.innerHTML='';Object.keys(DUMMY_DATA[brand][model]).forEach(year=>{const item=document.createElement('div');item.className='selection-item';item.innerText=year;item.onclick=()=>selectYear(year);steps.year.appendChild(item)})}function selectYear(year){selections.year=year;modalTitle.innerText="Passo 4: Selecione a Versão";populateVersions(selections.brand,selections.model,year);showStep('version')}function populateVersions(brand,model,year){steps.version.innerHTML='';DUMMY_DATA[brand][model][year].forEach(car=>{const item=document.createElement('div');item.className='selection-item';item.innerHTML=`${car.version} - <strong>${car.price}</strong>`;item.onclick=()=>finalSelection(car);steps.version.appendChild(item)})}
 
-        function closeModal() {
-            modal.classList.add('hidden');
-        };
-
-        function goBack() {
-            if (currentStep === 'model') { showStep('brand'); modalTitle.innerText = "Passo 1: Selecione a Marca"; }
-            else if (currentStep === 'year') { showStep('model'); modalTitle.innerText = "Passo 2: Selecione o Modelo"; }
-            else if (currentStep === 'version') { showStep('year'); modalTitle.innerText = "Passo 3: Selecione o Ano"; }
-        };
+        // === FUNÇÕES DE PREENCHIMENTO DOS CARDS E TABELA ===
+        function finalSelection(carObject) {
+            activeSlot.classList.add('filled');
+            activeSlot.setAttribute('data-car-id', carObject.id); // Salva o ID do carro no slot
+            const carData = DETAILED_DUMMY_DATA[carObject.id];
+            activeSlot.innerHTML = `<button class="remove-car-btn" onclick="removeCar(this)">&times;</button><div class="car-card"><h3>${carData.marca} ${carData.modelo}</h3><p class="car-version">${carData.versao}</p><p class="car-price">${carData.informacoes_basicas.preco_fipe}</p><button class="details-btn">Ver detalhes</button></div>`;
+            closeModal();
+            updateComparisonTable(); // <-- CHAMA A ATUALIZAÇÃO DA TABELA
+        }
 
         function removeCar(buttonElement) {
             const slotToRemove = buttonElement.closest('.car-slot');
             if (slotToRemove) {
                 slotToRemove.classList.remove('filled');
-                slotToRemove.innerHTML = `
-                    <button class="add-car-btn">
-                        <span class="plus-icon">+</span>
-                        Adicionar modelo
-                    </button>`;
+                slotToRemove.setAttribute('data-car-id', 'null'); // Limpa o ID do carro
+                slotToRemove.innerHTML = `<button class="add-car-btn"><span class="plus-icon">+</span>Adicionar modelo</button>`;
+                updateComparisonTable(); // <-- CHAMA A ATUALIZAÇÃO DA TABELA
             }
         };
 
-        function showStep(stepName) {
-            currentStep = stepName;
-            for (let step in steps) { steps[step].classList.add('hidden'); }
-            steps[stepName].classList.remove('hidden');
-            backButton.classList.toggle('hidden', stepName === 'brand');
-        }
-
-        function populateBrands() {
-            steps.brand.innerHTML = '';
-            Object.keys(DUMMY_DATA).forEach(brand => {
-                const item = document.createElement('div');
-                item.className = 'selection-item';
-                item.innerText = brand;
-                item.onclick = () => selectBrand(brand);
-                steps.brand.appendChild(item);
+        // === NOVA LÓGICA PARA ATUALIZAR E RENDERIZAR A TABELA ===
+        function updateComparisonTable() {
+            const selectedCars = [];
+            document.querySelectorAll('.car-slot').forEach(slot => {
+                const carId = slot.getAttribute('data-car-id');
+                if (carId && carId !== 'null') {
+                    selectedCars.push(DETAILED_DUMMY_DATA[carId]);
+                }
             });
-        }
 
-        function selectBrand(brandName) {
-            selections.brand = brandName;
-            modalTitle.innerText = "Passo 2: Selecione o Modelo";
-            populateModels(brandName);
-            showStep('model');
+            if (selectedCars.length >= 2) {
+                comparisonTableContainer.classList.remove('hidden');
+                renderComparisonTable(selectedCars);
+            } else {
+                comparisonTableContainer.classList.add('hidden');
+            }
         }
+        
+        function renderComparisonTable(cars) {
+            comparisonTableContent.innerHTML = ''; // Limpa a tabela anterior
 
-        function populateModels(brandName) {
-            steps.model.innerHTML = '';
-            Object.keys(DUMMY_DATA[brandName]).forEach(model => {
-                const item = document.createElement('div');
-                item.className = 'selection-item';
-                item.innerText = model;
-                item.onclick = () => selectModel(model);
-                steps.model.appendChild(item);
-            });
-        }
+            // Exemplo de como criar uma seção da tabela (pode ser repetido para todas as categorias)
+            const categories = {
+                "INFORMAÇÕES BÁSICAS": "informacoes_basicas",
+                "MOTOR E DESEMPENHO": "motor_desempenho",
+                "SEGURANÇA": "seguranca"
+            };
 
-        function selectModel(modelName) {
-            selections.model = modelName;
-            modalTitle.innerText = "Passo 3: Selecione o Ano";
-            populateYears(selections.brand, modelName);
-            showStep('year');
-        }
+            for (const categoryTitle in categories) {
+                const categoryKey = categories[categoryTitle];
+                
+                let panelHTML = `<div class="panel-header panel-item-label">${categoryTitle}</div>`;
+                cars.forEach(car => {
+                    panelHTML += `<div class="panel-header">${car.marca} ${car.modelo}</div>`;
+                });
 
-        function populateYears(brand, model) {
-            steps.year.innerHTML = '';
-            Object.keys(DUMMY_DATA[brand][model]).forEach(year => {
-                const item = document.createElement('div');
-                item.className = 'selection-item';
-                item.innerText = year;
-                item.onclick = () => selectYear(year);
-                steps.year.appendChild(item);
-            });
-        }
+                // Itera sobre os itens dentro da primeira categoria de carro para pegar as chaves (ex: preco_fipe, categoria)
+                for (const itemKey in cars[0][categoryKey]) {
+                    const itemLabel = itemKey.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()); // Formata o label
+                    panelHTML += `<div class="panel-item panel-item-label">${itemLabel}</div>`;
+                    cars.forEach(car => {
+                        panelHTML += `<div class="panel-item">${car[categoryKey][itemKey] || '-'}</div>`;
+                    });
+                }
 
-        function selectYear(year) {
-            selections.year = year;
-            modalTitle.innerText = "Passo 4: Selecione a Versão";
-            populateVersions(selections.brand, selections.model, year);
-            showStep('version');
-        }
+                const accordionButton = document.createElement('button');
+                accordionButton.className = 'accordion-header';
+                accordionButton.innerText = categoryTitle;
 
-        function populateVersions(brand, model, year) {
-            steps.version.innerHTML = '';
-            DUMMY_DATA[brand][model][year].forEach(car => {
-                const item = document.createElement('div');
-                item.className = 'selection-item';
-                item.innerHTML = `${car.version} - <strong>${car.price}</strong>`;
-                item.onclick = () => finalSelection(car);
-                steps.version.appendChild(item);
-            });
-        }
+                const panelDiv = document.createElement('div');
+                panelDiv.className = 'panel';
+                panelDiv.innerHTML = panelHTML;
 
-        // == FUNÇÃO ATUALIZADA PARA O NOVO DESIGN ==
-        function finalSelection(carObject) {
-            activeSlot.classList.add('filled');
-            activeSlot.innerHTML = `
-                <button class="remove-car-btn" onclick="removeCar(this)">×</button>
-                <div class="car-card">
-                    <h3>${selections.brand} ${selections.model}</h3>
-                    <p class="car-version">${carObject.version}</p>
-                    <p class="car-price">${carObject.price}</p>
-                    <button class="details-btn">Ver detalhes</button>
-                </div>`;
-            closeModal();
+                comparisonTableContent.appendChild(accordionButton);
+                comparisonTableContent.appendChild(panelDiv);
+
+                // Adiciona o evento de clique para o efeito acordeão
+                accordionButton.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const panel = this.nextElementSibling;
+                    if (panel.style.maxHeight) {
+                        panel.style.maxHeight = null;
+                    } else {
+                        panel.style.maxHeight = panel.scrollHeight + "px";
+                    }
+                });
+            }
         }
     </script>
 </body>
